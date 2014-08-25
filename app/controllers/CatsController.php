@@ -2,6 +2,13 @@
 
 class CatsController extends \BaseController {
 
+    public function __construct(Cat $cat, User $user)
+    {
+        parent::__construct();
+        $this->cat = $cat;
+        $this->user = $user;
+    }
+
 	/**
 	 * Display a listing of cats
 	 *
@@ -9,7 +16,7 @@ class CatsController extends \BaseController {
 	 */
 	public function getIndex()
 	{
-		$cats = Cat::all();
+		$cats = $this->cat->orderBy('created_at', 'desc')->paginate(5);
 
 		return View::make('cats.index', compact('cats'));
 	}
@@ -25,7 +32,7 @@ class CatsController extends \BaseController {
         {
             return View::make('cats.create');
         } else {
-            return Redirect::to('users/login')->withMessage('Please login first');
+            return Redirect::to('users/login')->withInfo('Please login first');
         }
 	}
 
@@ -67,7 +74,7 @@ class CatsController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function getShow($id)
 	{
 		$cat = Cat::findOrFail($id);
 
@@ -80,7 +87,7 @@ class CatsController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function getEdit($id)
 	{
 		$cat = Cat::find($id);
 
@@ -93,8 +100,10 @@ class CatsController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function postUpdate($id)
 	{
+        $destinationPath = public_path().'/design/img';
+
 		$cat = Cat::findOrFail($id);
 
 		$validator = Validator::make($data = Input::all(), Cat::$rules);
@@ -104,9 +113,17 @@ class CatsController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
+        if(Input::hasFile('img')){
+            $name = Input::file('img')->getClientOriginalName();
+            $data['img'] = '/design/img/'.$name;
+            Input::file('img')->move($destinationPath, $name);
+        }else{
+            $data['img'] = $cat->img;
+        }
+
 		$cat->update($data);
 
-		return Redirect::route('cats.index');
+        return Redirect::to('cats/show/'.$cat->id);
 	}
 
 	/**
@@ -115,11 +132,11 @@ class CatsController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function getDelete($id)
 	{
 		Cat::destroy($id);
 
-		return Redirect::route('cats.index');
+		return URL::to('cats/index');
 	}
 
 }

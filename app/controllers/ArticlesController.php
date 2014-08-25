@@ -120,11 +120,13 @@ class ArticlesController extends \BaseController {
             $name = Input::file('img')->getClientOriginalName();
             $data['img'] = $name;
             Input::file('img')->move($destinationPath, $name);
+        }else{
+            $data['img'] = $article->img;
         }
 
 		$article->update($data);
 
-		return Redirect::to('articles/index');
+		return Redirect::to('articles/show/'.$article->id);
 	}
 
 	/**

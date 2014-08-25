@@ -7,8 +7,7 @@
 
 @section('content')
 <div class="row centered">
-    <h1>{{ $article->title }}</h1>
-    <br>
+    <h3>{{ $article->title }}</h3>
     <br>
     <div class="col-lg-12">
         <img class="img-responsive" src="{{ asset('design/img/'.$article->img) }}">

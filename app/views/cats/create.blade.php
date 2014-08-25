@@ -9,7 +9,7 @@
 <div class="col-lg-12">
     <h3>{{{ Lang::get('Add a cat') }}}</h3>
     <br>
-    {{ Form::open(array('url'=>'cats/store', 'files'=>true, 'id'=>'fileupload')) }}
+    {{ Form::open(array('url'=>'cats/store', 'files'=>true)) }}
         <div class="form-group">
             {{ Form::label('name', 'Cat\'s name') }}
             {{ Form::text('name', '', array('class'=>'form-control')) }}

@@ -24,6 +24,20 @@ View::composer('cats.create', function($view)
     $view->with('breed_options', $breed_options);
 });
 
+View::composer('cats.show', function($view)
+{
+    $breeds = Breed::all();
+    $breed_options = array_combine($breeds->lists('id'), $breeds->lists('name'));
+    $view->with('breed_options', $breed_options);
+});
+
+View::composer('cats.edit', function($view)
+{
+    $breeds = Breed::all();
+    $breed_options = array_combine($breeds->lists('id'), $breeds->lists('name'));
+    $view->with('breed_options', $breed_options);
+});
+
 // Confide routes
 Route::get('users/create', 'UsersController@create');
 Route::post('users', 'UsersController@store');
@@ -40,3 +54,5 @@ Route::get('users/logout', 'UsersController@logout');
 Route::controller('articles', 'ArticlesController');
 
 Route::controller('cats', 'CatsController');
+
+Route::controller('users', 'UsersController');

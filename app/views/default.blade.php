@@ -38,17 +38,30 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a {{ (Request::is('home')) ? ' class="active"' : ''}} href="{{{ URL::to('home') }}}" class="smothscroll">{{{ Lang::get('Home') }}}</a></li>
+                        <li {{ (Request::is('home')) ? ' class="active"' : ''}} ><a href="{{{ URL::to('home') }}}" class="smothscroll">{{{ Lang::get('Home') }}}</a></li>
                         <!--<li><a {{ (Request::is('user')) ? ' class="active"' : ''}} href="{{{ URL::to('user') }}}" class="smothscroll">{{{ Lang::get('User') }}}</a></li>-->
-                        <li><a {{ (Request::is('cats')) ? ' class="active"' : ''}}href="{{{ URL::to('cats') }}}" class="smothscroll">{{{ Lang::get('Cat') }}}</a></li>
-                        <li><a {{ (Request::is('article')) ? ' class="active"' : ''}}href="{{{ URL::to('articles') }}}" class="smothscroll">{{{ Lang::get('Article') }}}</a></li>
+                        <li {{ (Request::is('cats/*')) ? ' class="active"' : ''}} ><a href="{{{ URL::to('cats/index') }}}" class="smothscroll">{{{ Lang::get('Cat') }}}</a></li>
+                        <li {{ (Request::is('articles/*')) ? ' class="active"' : ''}}><a href="{{{ URL::to('articles/index') }}}" class="smothscroll">{{{ Lang::get('Article') }}}</a></li>
                     </ul>
                     <ul class="nav navbar-nav pull-right">
                         @if (Auth::check())
-                            <li><a {{ Request::is('users/logout') ? ' class="active"' : ''}} href="{{{ URL::to('users/logout') }}}">{{{ Lang::get('Logout') }}}</a></li>
+                            <li class="active dropdown">
+                                <a class="dropdown-toggle" id="dropdownMenu" data-toggle="dropdown">
+                                    {{{ Auth::user()->username }}}
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ URL::to('users/cat') }}">{{{ Lang::get('View.Own.Cat') }}}</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ URL::to('cats/create') }}">{{{ Lang::get('Create.Cat') }}}</a></li>
+                                    <li role="presentation" class="divider"></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ URL::to('users/article') }}">{{{ Lang::get('View.Own.Artile') }}}</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ URL::to('articles/create') }}">{{{ Lang::get('Create.Article') }}}</a></li>
+                                </ul>
+                            </li>
+                            <li {{ Request::is('users/logout') ? ' class="active"' : ''}} ><a href="{{{ URL::to('users/logout') }}}">{{{ Lang::get('Logout') }}}</a></li>
                         @else
-                            <li><a {{ Request::is('users/create') ? ' class="active"' : ''}} href="{{{ URL::to('users/create') }}}">{{{ Lang::get('Register') }}}</a></li>
-                            <li><a {{ Request::is('users/login') ? ' class="active"' : ''}} href="{{{ URL::to('users/login') }}}">{{{ Lang::get('Login') }}}</a></li>
+                            <li {{ Request::is('users/create') ? ' class="active"' : ''}} ><a href="{{{ URL::to('users/create') }}}">{{{ Lang::get('Register') }}}</a></li>
+                            <li {{ Request::is('users/login') ? ' class="active"' : ''}} ><a  href="{{{ URL::to('users/login') }}}">{{{ Lang::get('Login') }}}</a></li>
                         @endif
                     </ul>
                 </div>

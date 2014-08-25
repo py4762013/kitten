@@ -12,10 +12,12 @@ class UsersController extends \BaseController {
      * Inject the models
      * @param user $user
      */
-    public function __construct(User $user)
+    public function __construct(User $user, Article $article, Cat $cat)
     {
         parent::__construct();
         $this->user = $user;
+        $this->article = $article;
+        $this->cat = $cat;
     }
 
 	/**
@@ -177,4 +179,39 @@ class UsersController extends \BaseController {
         return Redirect::to('home');
     }
 
+    /*
+     * Own Cat
+     * @return Response
+     */
+    public function getCat()
+    {
+        $owncat = $this->cat->where('user_id', Auth::user()->id);
+
+        if($owncat->count() == 0)
+        {
+            return Redirect::to('cats/create')->withInfo('You did not have cat,Please Add your cat first');
+        }else{
+            $cats = $owncat->orderBy('created_at', 'desc')->paginate(5);
+
+            return View::make('cats.index', compact('cats'));
+        }
+    }
+
+    /*
+     * Own Article
+     * @return Response
+     */
+    public function getArticle()
+    {
+        $ownarticle = $this->article->where('user_id', Auth::user()->id);
+
+        if($ownarticle->count() == 0)
+        {
+            return Redirect::to('articles/create')->withInfo('You did not have article,Please Add you article first');
+        }else{
+            $articles = $ownarticle->orderBy('created_at', 'desc')->paginate(5);
+
+            return View::make('article.index', compact('articles'));
+        }
+    }
 }
