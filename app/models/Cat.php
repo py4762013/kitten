@@ -5,7 +5,7 @@ class Cat extends \Eloquent {
 
     public static $rules = array(
         'name' => 'required',
-        'img' => 'mimes:jpeg,bmp,png',
+        'img' => 'required|mimes:jpeg,bmp,png',
         'birthday' => 'required'
     );
 

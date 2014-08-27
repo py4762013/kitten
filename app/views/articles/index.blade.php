@@ -16,7 +16,11 @@
     {{{ $article->description }}}
     <div class="row">
         <div class="col-lg-8">
-            <p>{{{ Lang::get('Author:') }}}<a href="#">{{$article->author->username}}</a></p>
+            <span class="label label-default">{{{ Lang::get('Author:') }}}<a href="#">{{$article->author->username}}</a></span>
+            |
+            <span class="label label-default">{{{ Lang::get('Date:') }}}<a href="#">{{ $article->created_at }}</a></span>
+            |
+            <span class="label label-default"><a href="#">{{{ Lang::get('Comments') }}}</a></span>
         </div>
         <div class="col-lg-4">
             @if (Auth::check() && (Auth::user()->id == $article->user_id))

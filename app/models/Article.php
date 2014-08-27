@@ -6,7 +6,7 @@ class Article extends \Eloquent {
     public static $rules = array(
         'title' => 'required|between:1,36',
         'description' => 'required|min:3',
-        'img' => 'mimes:jpeg,bmp,png'
+        'img' => 'required|mimes:jpeg,bmp,png'
     );
 
     /*

@@ -19,6 +19,7 @@ class CreateArticlesTable extends Migration {
             $table->string('img');
             $table->text('description');
             $table->integer('user_id')->unsigned();
+            $table->integer('comments');
 			$table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
 		});

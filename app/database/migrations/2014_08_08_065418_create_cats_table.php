@@ -37,7 +37,7 @@ class CreateCatsTable extends Migration {
         Schema::table('cats', function(Blueprint $table)
         {
             $table->dropForeign('cats_user_id_foreign');
-            $table->dropForeign('cats_brred_id_foreign');
+            $table->dropForeign('cats_breed_id_foreign');
         });
 		Schema::drop('cats');
 	}

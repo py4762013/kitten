@@ -16,7 +16,7 @@ class CatsController extends \BaseController {
 	 */
 	public function getIndex()
 	{
-		$cats = $this->cat->orderBy('created_at', 'desc')->paginate(5);
+		$cats = $this->cat->orderBy('created_at', 'desc')->paginate(3);
 
 		return View::make('cats.index', compact('cats'));
 	}
@@ -46,13 +46,15 @@ class CatsController extends \BaseController {
         $destinationPath = '/design/img/';
 
         $messages = array(
+            'required' => 'The :attribute field is required',
+            'mines' => 'The :attribute field must be jpeg,bmp,png',
         );
 
 		$validator = Validator::make($data = Input::all(), Cat::$rules);
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return Redirect::back()->withError($validator->messages())->withInput();
 		}
 
         $name = Input::file('img')->getClientOriginalName();

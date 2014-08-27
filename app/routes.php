@@ -56,3 +56,5 @@ Route::controller('articles', 'ArticlesController');
 Route::controller('cats', 'CatsController');
 
 Route::controller('users', 'UsersController');
+
+Route::controller('comments', 'CommentsController');

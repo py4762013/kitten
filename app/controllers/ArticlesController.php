@@ -2,11 +2,12 @@
 
 class ArticlesController extends \BaseController {
 
-    public function __construct(Article $article, User $user)
+    public function __construct(Article $article, User $user,Comment $comment)
     {
         parent::__construct();
         $this->article = $article;
         $this->user = $user;
+        $this->comment = $comment;
     }
 
 	/**
@@ -16,7 +17,7 @@ class ArticlesController extends \BaseController {
 	 */
 	public function getIndex()
 	{
-		$articles = $this->article->orderby('created_at')->paginate(5);
+		$articles = $this->article->orderby('created_at', 'desc')->paginate(3);
 
 		return View::make('articles.index', compact('articles'));
 	}
@@ -80,7 +81,9 @@ class ArticlesController extends \BaseController {
 	{
 		$article = Article::findOrFail($id);
 
-		return View::make('articles.show', compact('article'));
+        $comments = $this->comment->where('article_id', '=', "$id")->get();
+
+		return View::make('articles.show', compact('article','comments'));
 	}
 
 	/**
